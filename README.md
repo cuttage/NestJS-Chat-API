@@ -8,7 +8,7 @@ This is a simple chat application API developed using NestJS framework. It allow
 
 ### Architecture:
 
-The API is designed using a modular architecture where each module has its own controllers, services, and DTOs. The ChatModule is the main module that contains ChatController, ChatService, and Chat DTOs. The RedirectModule contains RedirectController. RedirectController is used to make sure that when a user accesses the root route (/) of the application, the redirectToChat() method is executed, which redirects the user to the /chat route.
+The API is designed using a modular architecture where each module has its own controllers, services, and DTOs. The ChatModule is the main module that contains ChatController, ChatService, and Chat DTOs. The RedirectController is implemented in ChatModule. RedirectController is used to make sure that when a user accesses the root route (/) of the application, the redirectToChat() method is executed, which redirects the user to the /chat route.
 
 We use an in-memory database for this API. The database is represented as a Map object that holds the Room instances created by the API. The Rooms Map holds the rooms by their name and each room has a name, a list of users, and a list of messages.
 An in-memory database is only appropriate if the API does not require the data to persist across different executions and we implemented it as such for demonstration purpose only. If the data needs to persist across different executions, a database such as MongoDB, MySQL, or PostgreSQL should be used instead.
