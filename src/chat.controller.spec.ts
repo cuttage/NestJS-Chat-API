@@ -71,95 +71,115 @@ describe('ChatController', () => {
   });
 
   describe('sendMessage', () => {
-    it('should add a message to the room', () => {
-      const roomName = 'test-room';
+    it('should throw an error if the room does not exist', () => {
       const message: Message = {
-        author: 'Test User',
-        text: 'Hello, world!',
+        author: 'Alice',
+        text: 'Hello',
         timestamp: new Date(),
       };
+      const roomName = 'Nonexistent Room';
 
-      service.createRoom(roomName);
-      service.sendMessage(roomName, message);
-
-      const room = service.getRooms().find((r) => r.name === roomName);
-      if (room) {
-        expect(room.messages).toHaveLength(1);
-        expect(room.messages[0]).toEqual(message);
-      } else {
-        fail('Room not found');
-      }
-    });
-
-    it('should throw an error if room does not exist', () => {
-      const roomName = 'non-existent-room';
-      const message: Message = {
-        author: 'Test User',
-        text: 'Hello, world!',
-        timestamp: new Date(),
-      };
-
-      expect(() => service.sendMessage(roomName, message)).toThrow(
+      expect(() => service.sendMessage(roomName, message)).toThrowError(
         'Room not found',
       );
+    });
+
+    it('should throw an error if the author is not in the room', () => {
+      const message: Message = {
+        author: 'Alice',
+        text: 'Hello',
+        timestamp: new Date(),
+      };
+      const roomName = 'test-room';
+      service.createRoom(roomName);
+
+      expect(() => service.sendMessage(roomName, message)).toThrowError(
+        'Author not found in room',
+      );
+    });
+
+    it('should add a message to the room messages', () => {
+      const message: Message = {
+        author: 'Alice',
+        text: 'Hello',
+        timestamp: new Date(),
+      };
+      const roomName = 'test-room';
+      const user: User = { name: message.author };
+      service.createRoom(roomName);
+      service.addUserToRoom(roomName, user);
+
+      service.sendMessage(roomName, message);
+
+      expect(service.getLatestMessages(roomName)).toContain(message);
     });
   });
 
   describe('getLatestMessages', () => {
-    it('should return all messages if limit is not provided', () => {
-      const roomName = 'testRoom';
-      const message1: Message = {
-        author: 'user1',
-        text: 'hello1',
-        timestamp: new Date(),
-      };
-      const message2: Message = {
-        author: 'user2',
-        text: 'hello2',
-        timestamp: new Date(),
-      };
-      const messages: Message[] = [message1, message2];
-      const room: Room = { name: roomName, users: new Set(), messages };
-      service.createRoom(roomName);
-      service.sendMessage(roomName, message1);
-      service.sendMessage(roomName, message2);
-      expect(service.getLatestMessages(roomName)).toEqual(messages);
-    });
-
-    it('should return the latest n messages if limit is provided', () => {
-      const roomName = 'testRoom';
-      const message1: Message = {
-        author: 'user1',
-        text: 'hello1',
-        timestamp: new Date(),
-      };
-      const message2: Message = {
-        author: 'user2',
-        text: 'hello2',
-        timestamp: new Date(),
-      };
-      const message3: Message = {
-        author: 'user3',
-        text: 'hello3',
-        timestamp: new Date(),
-      };
-      const messages: Message[] = [message1, message2, message3];
-      const room: Room = { name: roomName, users: new Set(), messages };
-      service.createRoom(roomName);
-      service.sendMessage(roomName, message1);
-      service.sendMessage(roomName, message2);
-      service.sendMessage(roomName, message3);
-      expect(service.getLatestMessages(roomName, 2)).toEqual([
-        message2,
-        message3,
-      ]);
-    });
-
     it('should throw an error if the room does not exist', () => {
-      const roomName = 'nonexistentRoom';
+      const roomName = 'Nonexistent Room';
+
       expect(() => service.getLatestMessages(roomName)).toThrowError(
         'Room not found',
       );
+    });
+
+    it('should return all messages when no limit is provided', () => {
+      const message1: Message = {
+        author: 'Alice',
+        text: 'Hello',
+        timestamp: new Date(),
+      };
+      const message2: Message = {
+        author: 'Bob',
+        text: 'Hi',
+        timestamp: new Date(),
+      };
+      const roomName = 'test-room';
+      const user1: User = { name: message1.author };
+      const user2: User = { name: message2.author };
+      service.createRoom(roomName);
+      service.addUserToRoom(roomName, user1);
+      service.addUserToRoom(roomName, user2);
+      service.sendMessage(roomName, message1);
+      service.sendMessage(roomName, message2);
+
+      const result = service.getLatestMessages(roomName);
+
+      expect(result).toEqual([message1, message2]);
+    });
+
+    it('should return the last n messages when a limit is provided', () => {
+      const message1: Message = {
+        author: 'Alice',
+        text: 'Hello',
+        timestamp: new Date(),
+      };
+      const message2: Message = {
+        author: 'Bob',
+        text: 'Hi',
+        timestamp: new Date(),
+      };
+      const message3: Message = {
+        author: 'Charlie',
+        text: 'Hey',
+        timestamp: new Date(),
+      };
+      const roomName = 'test-room';
+      const user1: User = { name: message1.author };
+      const user2: User = { name: message2.author };
+      const user3: User = { name: message3.author };
+      service.createRoom(roomName);
+      service.addUserToRoom(roomName, user1);
+      service.addUserToRoom(roomName, user2);
+      service.addUserToRoom(roomName, user3);
+      service.sendMessage(roomName, message1);
+      service.sendMessage(roomName, message2);
+      service.sendMessage(roomName, message3);
+
+      const result = service.getLatestMessages(roomName, 2);
+
+      expect(result).toEqual([message2, message3]);
     });
   });
 });

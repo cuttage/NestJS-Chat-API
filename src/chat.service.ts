@@ -39,6 +39,14 @@ export class ChatService {
     if (!room) {
       throw new Error('Room not found');
     }
+
+    const authorExists = Array.from(room.users).some(
+      (user) => user.name === message.author,
+    );
+    if (!authorExists) {
+      throw new Error('Author not found in room');
+    }
+
     room.messages.push(message);
   }
 
