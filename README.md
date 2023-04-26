@@ -1,73 +1,45 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# NestJS-Chat-API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This is a simple chat application API built using the NestJS framework.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## API Endpoints
 
-## Description
+The application runs at `http://localhost:3000`.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- GET `/chat` - Returns a welcome message.
+- GET `/chat/room` - Returns a list of available chat rooms.
+- POST `/chat/room` - Creates a new chat room with the given name.
+- POST `/chat/room/:roomName/user` - Adds a user to the specified chat room.
+- POST `/chat/room/:roomName/message` - Sends a message to the specified chat room.
+- GET `/chat/room/:roomName/messages` - Returns the latest messages from the specified chat room.
 
-## Installation
+## Swagger UI
 
-```bash
-$ npm install
-```
+The Swagger UI can be accessed at `http://localhost:5000/api` and provides documentation for the API.
 
-## Running the app
+## Installation and Usage
 
-```bash
-# development
-$ npm run start
+To install and run the nestjs-chat-api, you need to have Node.js and npm installed on your machine.
 
-# watch mode
-$ npm run start:dev
+- Tested on Node.js `v16.14.2`
 
-# production mode
-$ npm run start:prod
-```
+- Clone the repository using the following command:
+  `git clone https://github.com/cuttage/nestjs-chat-api.git`
 
-## Test
+- Change to the project directory:
+  `cd nestjs-chat-api`
 
-```bash
-# unit tests
-$ npm run test
+- Install the dependencies:
+  `npm install`
 
-# e2e tests
-$ npm run test:e2e
+- Start the server:
+  `npm run start:dev`
 
-# test coverage
-$ npm run test:cov
-```
+This will start the server in development mode and will watch for any file changes in the src directory.
 
-## Support
+You can now access the API by navigating to `http://localhost:3000` in your web browser and use a tool like Postman (Desktop) to make HTTP requests to the API.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run tests, you can use the following commands:
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
+`npm run test`
+`npm run test:e2e`
