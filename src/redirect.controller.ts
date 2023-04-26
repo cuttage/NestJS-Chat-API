@@ -5,6 +5,6 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller()
 export class RedirectController {
   @Get()
-  @Redirect('/chat')
+  @Redirect('/chat', 302)
   redirectToChat() {}
 }
