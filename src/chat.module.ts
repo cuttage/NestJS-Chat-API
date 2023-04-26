@@ -3,10 +3,11 @@ import { ChatController } from './chat.controller';
 import { ChatService } from './chat.service';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { NestFactory } from '@nestjs/core';
+import { RedirectController } from './redirect.controller';
 
 @Module({
   imports: [],
-  controllers: [ChatController],
+  controllers: [ChatController, RedirectController],
   providers: [ChatService],
 })
 export class ChatModule {}
@@ -19,6 +20,7 @@ async function bootstrap() {
     .setDescription('A simple chat application API')
     .setVersion('1.0')
     .addTag('Chat')
+    .addTag('Redirect')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
