@@ -50,7 +50,7 @@ The ChatController and ChatService were tested by mocking the dependencies and v
 - sendMessage: tests if the method adds a new message to a room's message list, and if it throws an error when the room does not exist or the author is not in the room.
 - getLatestMessages: tests if the method returns the correct number of messages from a room, and if it throws an error when the room does not exist.
 
-#### e2e
+#### e2e:
 
 This code uses the NestJS testing utilities and Supertest library for end-to-end testing of the ChatController.
 
